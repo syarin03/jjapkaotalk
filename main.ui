@@ -29,7 +29,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="stack_main">
      <widget class="QPushButton" name="btn_test">
@@ -45,8 +45,34 @@
        <string>test</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_time">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>190</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_msg_time">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>230</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
     </widget>
-    <widget class="QWidget" name="stack_regist">
+    <widget class="QWidget" name="stack_login">
      <widget class="QLineEdit" name="edit_login_pw">
       <property name="geometry">
        <rect>
@@ -116,6 +142,7 @@
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="stack_regist"/>
    </widget>
   </widget>
  </widget>

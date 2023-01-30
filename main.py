@@ -37,22 +37,17 @@ class WindowClass(QMainWindow, form_class):
         # self.edit_regist_pw.setValidator(QRegExpValidator(input_rule_eng_num, self))
         # self.edit_regist_pwck.setValidator(QRegExpValidator(input_rule_eng_num, self))
 
+        self.stackedWidget.setCurrentWidget(self.stack_main)
+
         self.btn_test.clicked.connect(self.test)
-        time = datetime.utcnow().strftime('%F %T.%f')
-        print(time)
-        sql = f"INSERT INTO chat (room_num, member_num, send_time, message) VALUES (1, 1, '{time}', '')"
-        with conn_commit() as con:
-            with con.cursor() as cur:
-                cur.execute(sql)
-                con.commit()
 
     def test(self):
-        sql = "SELECT * FROM joining"
-        print(sql)
-        with conn_fetch() as cur:
-            cur.execute(sql)
-            result = cur.fetchall()
-            print(result)
+        time = datetime.now().strftime('%F %T.%f')
+        msg_time = datetime.now().strftime('%H:%M')
+        print('time:', time)
+        print('msg time:', msg_time)
+        self.label_time.setText(time)
+        self.label_msg_time.setText(msg_time)
 
 
 if __name__ == "__main__":
