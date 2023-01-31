@@ -10,6 +10,18 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>400</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>400</width>
+    <height>600</height>
+   </size>
+  </property>
   <property name="font">
    <font>
     <family>맑은 고딕</family>
@@ -19,7 +31,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QStackedWidget" name="stackedWidget">
+   <widget class="QStackedWidget" name="stack">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -28,8 +40,16 @@
       <height>600</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <family>맑은 고딕</family>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>6</number>
     </property>
     <widget class="QWidget" name="stack_main">
      <widget class="QPushButton" name="btn_test">
@@ -41,6 +61,17 @@
         <height>23</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
       <property name="text">
        <string>test</string>
       </property>
@@ -48,11 +79,16 @@
      <widget class="QLabel" name="label_time">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>190</y>
+        <x>10</x>
+        <y>40</y>
         <width>200</width>
         <height>25</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
       </property>
       <property name="text">
        <string/>
@@ -61,26 +97,108 @@
      <widget class="QLabel" name="label_msg_time">
       <property name="geometry">
        <rect>
-        <x>100</x>
-        <y>230</y>
+        <x>10</x>
+        <y>70</y>
         <width>200</width>
         <height>25</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
       </property>
       <property name="text">
        <string/>
       </property>
      </widget>
+     <widget class="QPushButton" name="btn_main_to_login">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>340</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>로그인</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_main_to_regist">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>370</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>회원가입</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_main_to_chat">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>190</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>메시지</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="stack_login">
-     <widget class="QLineEdit" name="edit_login_pw">
+     <widget class="QLineEdit" name="input_login_pw">
       <property name="geometry">
        <rect>
         <x>100</x>
         <y>250</y>
-        <width>120</width>
+        <width>130</width>
         <height>25</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
       </property>
       <property name="echoMode">
        <enum>QLineEdit::Password</enum>
@@ -89,7 +207,7 @@
        <string>비밀번호</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btn_main_to_regist">
+     <widget class="QPushButton" name="btn_login_to_regist">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -98,18 +216,34 @@
         <height>25</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
       <property name="text">
        <string>회원가입</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="edit_login_id">
+     <widget class="QLineEdit" name="input_login_id">
       <property name="geometry">
        <rect>
         <x>100</x>
         <y>220</y>
-        <width>120</width>
+        <width>130</width>
         <height>25</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
       </property>
       <property name="placeholderText">
        <string>아이디</string>
@@ -118,17 +252,28 @@
      <widget class="QPushButton" name="btn_login">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>240</x>
         <y>220</y>
-        <width>70</width>
+        <width>60</width>
         <height>55</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
       </property>
       <property name="text">
        <string>로그인</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btn_main_to_find">
+     <widget class="QPushButton" name="btn_login_to_find">
       <property name="geometry">
        <rect>
         <x>100</x>
@@ -137,12 +282,571 @@
         <height>25</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
       <property name="text">
        <string>아이디/비밀번호 찾기</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="btn_login_to_main">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>80</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>메인으로</string>
+      </property>
+     </widget>
     </widget>
-    <widget class="QWidget" name="stack_regist"/>
+    <widget class="QWidget" name="stack_regist">
+     <widget class="QLineEdit" name="input_regist_id">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>130</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>아이디</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="input_regist_pw">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>180</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
+      <property name="placeholderText">
+       <string>비밀번호</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="input_regist_pwck">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>230</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>비밀번호 확인</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="input_regist_name">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>280</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>이름</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="input_regist_phone">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>330</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>전화번호</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_regist_id">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>155</y>
+        <width>200</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>이미 사용중인 아이디입니다</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_regist_pw">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>205</y>
+        <width>200</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>8자 이상 영문, 숫자를 사용하세요</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_regist_pwck">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>255</y>
+        <width>200</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>비밀번호가 일치하지 않습니다</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_regist_phone">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>355</y>
+        <width>200</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>이미 가입된 번호입니다</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_regist">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>400</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>회원가입</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_regist_to_main">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>80</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>메인으로</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="stack_find">
+     <widget class="QTabWidget" name="tab_find">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>70</y>
+        <width>280</width>
+        <height>400</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab_find_id">
+       <attribute name="title">
+        <string>아이디 찾기</string>
+       </attribute>
+       <widget class="QLineEdit" name="input_find_id_name">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>120</y>
+          <width>190</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>이름</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="input_find_id_phone">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>160</y>
+          <width>190</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>전화번호</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_find_id">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>200</y>
+          <width>190</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+        </property>
+        <property name="text">
+         <string>아이디 찾기</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_find_pw">
+       <attribute name="title">
+        <string>비밀번호 찾기</string>
+       </attribute>
+       <widget class="QLineEdit" name="input_find_pw_phone">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>160</y>
+          <width>190</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>전화번호</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="btn_find_pw">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>200</y>
+          <width>190</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+         </font>
+        </property>
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+        </property>
+        <property name="text">
+         <string>비밀번호 찾기</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="input_find_pw_name">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>120</y>
+          <width>190</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>이름</string>
+        </property>
+       </widget>
+       <widget class="QLineEdit" name="input_find_pw_id">
+        <property name="geometry">
+         <rect>
+          <x>40</x>
+          <y>80</y>
+          <width>190</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="placeholderText">
+         <string>아이디</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="btn_find_to_main">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>80</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>메인으로</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="stack_room_list">
+     <widget class="QListWidget" name="listWidget">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>90</y>
+        <width>341</width>
+        <height>391</height>
+       </rect>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="stack_room_create"/>
+    <widget class="QWidget" name="stack_room_chat">
+     <widget class="QLineEdit" name="input_chat_text">
+      <property name="geometry">
+       <rect>
+        <x>11</x>
+        <y>491</y>
+        <width>381</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="frame">
+       <bool>false</bool>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_send_text">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>331</x>
+        <y>561</y>
+        <width>60</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px;
+background-color: rgb(217, 217, 217);
+</string>
+      </property>
+      <property name="text">
+       <string>전송</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>402</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(186, 206, 224);</string>
+      </property>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>30</y>
+         <width>200</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>맑은 고딕</family>
+         <pointsize>11</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>방 이름</string>
+       </property>
+      </widget>
+      <widget class="QTextBrowser" name="browser_chat">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>381</width>
+         <height>401</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>맑은 고딕</family>
+        </font>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::NoFrame</enum>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_login_to_main_2">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>60</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>맑은 고딕</family>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255, 0);</string>
+       </property>
+       <property name="text">
+        <string>메인으로</string>
+       </property>
+      </widget>
+     </widget>
+    </widget>
    </widget>
   </widget>
  </widget>
