@@ -69,6 +69,7 @@ class WindowClass(QMainWindow, form_class):
 
         self.btn_test.clicked.connect(self.test)
         self.btn_send_text.clicked.connect(self.send_text)
+        self.btn_login.clicked.connect(self.login)
 
         self.input_chat_text.textChanged.connect(self.set_enabled_send)
         self.input_chat_text.returnPressed.connect(self.send_text)
@@ -106,8 +107,8 @@ class WindowClass(QMainWindow, form_class):
         self.browser_chat.append(
             '<div style="text-align: right; vertical-align: bottom;">'
             '<span style="font-size: 10px; color: gray;">' + msg_time + '</span>'
-                                                                        '<span style="font-size: 14px; color: black;"> ' + chat + '</span>'
-                                                                                                                                  '</div>')
+            '<span style="font-size: 14px; color: black;"> ' + chat + '</span>'
+            '</div>')
         self.input_chat_text.clear()
 
     def set_enabled_send(self):
@@ -120,7 +121,7 @@ class WindowClass(QMainWindow, form_class):
 
     def login(self):
         sql = f"SELECT * FROM member WHERE uid = '{self.input_login_id.text()}' and upw = '{self.input_login_pw.text()}'"
-        with self.conn_fetch() as cur:
+        with conn_fetch() as cur:
             cur.execute(sql)
             result = cur.fetchall()
             if len(result) == 0:
@@ -128,7 +129,7 @@ class WindowClass(QMainWindow, form_class):
             else:
                 self.login_user = User(result[0])
                 QMessageBox.information(self, '알림', '로그인 되었습니다')
-                self.stackedWidget.setCurrentWidget(self.stack_main)
+                self.stack.setCurrentWidget(self.stack_main)
 
     def logout(self):
         self.login_user = None
@@ -150,7 +151,7 @@ class WindowClass(QMainWindow, form_class):
             regist_phone = self.input_regist_phone.text()
             sql = f"INSERT INTO member (uid, upw, uname, phone) VALUES ('{regist_id}', '{regist_pw}', '{regist_name}', '{regist_phone}')"
             print(sql)
-            with self.conn_commit() as con:
+            with conn_commit() as con:
                 with con.cursor() as cur:
                     cur.execute(sql)
                     con.commit()
@@ -177,9 +178,9 @@ class WindowClass(QMainWindow, form_class):
             self.isPWSameChecked = True
 
     def check_id(self, event):
-        sql = f"SELECT * FROM user WHERE uid = '{self.input_regist_id.text()}'"
+        sql = f"SELECT * FROM member WHERE uid = '{self.input_regist_id.text()}'"
 
-        with self.conn_fetch() as cur:
+        with conn_fetch() as cur:
             cur.execute(sql)
             result = cur.fetchall()
             if len(result) == 0:
