@@ -38,6 +38,7 @@ class WindowClass(QMainWindow, form_class):
     isIDChecked = False
     isPWRuleChecked = False
     isPWSameChecked = False
+
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -120,22 +121,24 @@ class WindowClass(QMainWindow, form_class):
             self.btn_send_text.setStyleSheet("border-radius: 5px; background-color: #FEE500;")
 
     def login(self):
-        sql = f"SELECT * FROM member WHERE uid = '{self.input_login_id.text()}' and upw = '{self.input_login_pw.text()}'"
-        with conn_fetch() as cur:
-            cur.execute(sql)
-            result = cur.fetchall()
-            if len(result) == 0:
-                QMessageBox.warning(self, '경고', '아이디 또는 비밀번호가 일치하지 않습니다')
-            else:
-                self.login_user = User(result[0])
-                QMessageBox.information(self, '알림', '로그인 되었습니다')
-                self.stack.setCurrentWidget(self.stack_main)
+        print('login')
+        # 서버로 넘겨주는 걸로 바꿔야 함
+        # sql = f"SELECT * FROM member WHERE uid = '{self.input_login_id.text()}' and upw = '{self.input_login_pw.text()}'"
+        # with conn_fetch() as cur:
+        #     cur.execute(sql)
+        #     result = cur.fetchall()
+        #     if len(result) == 0:
+        #         QMessageBox.warning(self, '경고', '아이디 또는 비밀번호가 일치하지 않습니다')
+        #     else:
+        #         self.login_user = User(result[0])
+        #         QMessageBox.information(self, '알림', '로그인 되었습니다')
+        #         self.stack.setCurrentWidget(self.stack_main)
 
     def logout(self):
         self.login_user = None
         QMessageBox.information(self, '알림', '로그아웃 되었습니다')
 
-    def registration(self, event):
+    def registration(self):
         if len(self.input_regist_id.text()) <= 0 or len(self.input_regist_pw.text()) <= 0 or len(
                 self.input_regist_pwck.text()) <= 0 or len(self.input_regist_name.text()) <= 0 or len(
                 self.input_regist_phone.text()) <= 0:
@@ -149,14 +152,15 @@ class WindowClass(QMainWindow, form_class):
             regist_pw = self.input_regist_pw.text()
             regist_name = self.input_regist_name.text()
             regist_phone = self.input_regist_phone.text()
-            sql = f"INSERT INTO member (uid, upw, uname, phone) VALUES ('{regist_id}', '{regist_pw}', '{regist_name}', '{regist_phone}')"
-            print(sql)
-            with conn_commit() as con:
-                with con.cursor() as cur:
-                    cur.execute(sql)
-                    con.commit()
-            QMessageBox.information(self, '알림', '회원가입에 성공하였습니다')
-            self.stackedWidget.setCurrentWidget(self.stack_main)
+            # 서버로 넘겨주는 걸로 바꿔야함
+            # sql = f"INSERT INTO member (uid, upw, uname, phone) VALUES ('{regist_id}', '{regist_pw}', '{regist_name}', '{regist_phone}')"
+            # print(sql)
+            # with conn_commit() as con:
+            #     with con.cursor() as cur:
+            #         cur.execute(sql)
+            #         con.commit()
+            # QMessageBox.information(self, '알림', '회원가입에 성공하였습니다')
+            # self.stackedWidget.setCurrentWidget(self.stack_main)
 
     def id_changed(self):
         self.isIDChecked = False
@@ -177,20 +181,21 @@ class WindowClass(QMainWindow, form_class):
             self.label_pw_check.clear()
             self.isPWSameChecked = True
 
-    def check_id(self, event):
-        sql = f"SELECT * FROM member WHERE uid = '{self.input_regist_id.text()}'"
-
-        with conn_fetch() as cur:
-            cur.execute(sql)
-            result = cur.fetchall()
-            if len(result) == 0:
-                self.isIDChecked = True
-                QMessageBox.information(self, '알림', '사용 가능한 아이디입니다')
-                self.btn_regist_idck.setEnabled(False)
-            else:
-                self.isIDChecked = False
-                QMessageBox.warning(self, '경고', '이미 사용 중인 아이디입니다')
-                self.btn_regist_idck.setEnabled(True)
+    def check_id(self):
+        print('check_id')
+        # 서버로 넘겨주는 걸로 바꿔야 함
+        # sql = f"SELECT * FROM member WHERE uid = '{self.input_regist_id.text()}'"
+        # with conn_fetch() as cur:
+        #     cur.execute(sql)
+        #     result = cur.fetchall()
+        #     if len(result) == 0:
+        #         self.isIDChecked = True
+        #         QMessageBox.information(self, '알림', '사용 가능한 아이디입니다')
+        #         self.btn_regist_idck.setEnabled(False)
+        #     else:
+        #         self.isIDChecked = False
+        #         QMessageBox.warning(self, '경고', '이미 사용 중인 아이디입니다')
+        #         self.btn_regist_idck.setEnabled(True)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
