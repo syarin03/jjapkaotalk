@@ -1,5 +1,6 @@
 import socket
 from _thread import *
+import json
 
 client_sockets = list()
 
@@ -8,7 +9,7 @@ PORT = 9000
 
 
 def threaded(client_socket, addr):
-    print('>> Connected by :', addr[0], ':', addr[1])
+    # print('>> Connected by :', addr[0], ':', addr[1])
 
     while True:
         try:
@@ -16,10 +17,12 @@ def threaded(client_socket, addr):
             if not data:
                 print('>> Disconnected by ' + addr[0], ':', addr[1])
                 break
-            print('>> Received from ' + addr[0], ':', addr[1], data.decode())
+            # print('>> Received from ' + addr[0], ':', addr[1], data.decode())
+            dic_data = json.loads(data.decode())
+            print('name: ' + dic_data['name'], 'message: ' + dic_data['message'])
             for client in client_sockets:
-                if client != client_socket:
-                    client.send(data)
+                # if client != client_socket:
+                client.send(data)
         except ConnectionResetError as e:
             print('>> Disconnected by ' + addr[0], ':', addr[1])
             break
