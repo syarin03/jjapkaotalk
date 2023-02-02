@@ -17,7 +17,7 @@ class User:
         self.num = info[0]
         self.uid = info[1]
         self.upw = info[2]
-        self.name = info[3]
+        self.uname = info[3]
         self.phone = info[4]
 
 
@@ -34,9 +34,11 @@ class ThreadClass:
         while True:
             data = self.client_socket.recv(1024)
             dic_data = json.loads(data.decode())
+
             if dic_data['method'] == 'chat':
                 print('user_num:', dic_data['user_num'], 'message', dic_data['message'])
                 self.form.append_message(dic_data)
+
             if dic_data['method'] == 'check_id_result':
                 print(dic_data['result'])
                 if dic_data['result']:
@@ -45,10 +47,20 @@ class ThreadClass:
                 else:
                     self.form.label_regist_id.setText('이미 사용 중인 아이디입니다')
                     self.form.isIDChecked = False
+
             if dic_data['method'] == 'login_result':
                 if dic_data['result']:
-                    self.form.QMessageBox.information(self, '알림', '로그인되었습니다')
-                    self.form.login_user = User()
+                    # self.form.QMessageBox.information(self, '알림', '로그인되었습니다')
+                    self.form.login_user = User(dic_data['login_info'])
+                    print(self.form.login_user.uid)
+                else:
+                    # QMessageBox.warning(None, '경고', '아이디 또는 비밀번호가 일치하지 않습니다')
+                    self.form.label_login_alert.setVisible(True)
+
+
+
+
+
 
             # print("receive:", repr(data.decode()))
 
@@ -65,6 +77,11 @@ class ThreadClass:
 
     def send_registration(self, uid, upw, uname, phone):
         data = {"method": 'registration', "uid": uid, "upw": upw, "uname": uname, "phone": phone}
+        json_data = json.dumps(data)
+        self.client_socket.sendall(json_data.encode())
+
+    def send_login(self, uid, upw):
+        data = {"method": 'login', "uid": uid, "upw": upw}
         json_data = json.dumps(data)
         self.client_socket.sendall(json_data.encode())
 
@@ -91,6 +108,7 @@ class WindowClass(QMainWindow, form_class):
         self.input_regist_phone.setValidator(QRegExpValidator(input_rule_phone, self))
 
         self.stack.setCurrentWidget(self.stack_main)
+        self.label_login_alert.setVisible(False)
         # endregion
 
         # region 페이지 이동
@@ -112,6 +130,7 @@ class WindowClass(QMainWindow, form_class):
         self.input_chat_text.textChanged.connect(self.set_enabled_send)
         self.input_chat_text.returnPressed.connect(self.send_text)
         self.input_regist_id.editingFinished.connect(self.check_id)
+        self.input_login_id.textChanged.connect(self.login_id_input_changed)
 
     # region 페이지 이동 함수들
     def go_main(self):
@@ -130,6 +149,9 @@ class WindowClass(QMainWindow, form_class):
         self.stack.setCurrentWidget(self.stack_room_chat)
 
     # endregion
+
+    def login_id_input_changed(self):
+        self.label_login_alert.setVisible(False)
 
     def send_text(self):
         time = datetime.now().strftime('%F %T.%f')  # DB에 넣을 시간
@@ -160,6 +182,10 @@ class WindowClass(QMainWindow, form_class):
 
     def login(self):
         print('login')
+        input_id = self.input_login_id.text()
+        input_pw = self.input_login_pw.text()
+        self.thread.send_login(input_id, input_pw)
+
         # 서버로 넘겨주는 걸로 바꿔야 함
         # sql = f"SELECT * FROM member WHERE uid = '{self.input_login_id.text()}' and upw = '{self.input_login_pw.text()}'"
         # with conn_fetch() as cur:

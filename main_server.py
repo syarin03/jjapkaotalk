@@ -59,10 +59,30 @@ def threaded(client_socket, addr):
                     else:
                         dic_data['result'] = False
 
-            for client in client_sockets:
-                # if client != client_socket:
-                json_data = json.dumps(dic_data)
-                client.sendall(json_data.encode())
+            if dic_data['method'] == 'login':
+                print(dic_data['uid'])
+                dic_data['method'] = 'login_result'
+                sql = f"SELECT * FROM member WHERE uid = '{dic_data['uid']}' and upw = '{dic_data['upw']}'"
+                with conn_fetch() as cur:
+                    cur.execute(sql)
+                    result = cur.fetchall()
+                    if len(result) == 0:
+                        dic_data['result'] = False
+                    else:
+                        dic_data['result'] = True
+                        dic_data['login_info'] = result[0]
+
+            if dic_data['method'] == 'login_result':
+                send_single(client_socket, dic_data)
+
+            else:
+                send_everyone(client_sockets, dic_data)
+
+            # for client in client_sockets:
+            #     if dic_data['method'] == 'login_result' and client != client_socket:
+            #         continue
+            #     json_data = json.dumps(dic_data)
+            #     client.sendall(json_data.encode())
         except ConnectionResetError as e:
             print('>> Disconnected by ' + addr[0], ':', addr[1])
             break
@@ -71,6 +91,17 @@ def threaded(client_socket, addr):
         print('remove client list:', len(client_sockets))
 
     client_socket.close()
+
+
+def send_everyone(client_sockets, dic_data):
+    for client in client_sockets:
+        json_data = json.dumps(dic_data)
+        client.sendall(json_data.encode())
+
+
+def send_single(client_socket, dic_data):
+    json_data = json.dumps(dic_data)
+    client_socket.sendall(json_data.encode())
 
 
 print('>> Server Start')
