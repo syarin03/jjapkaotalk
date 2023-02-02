@@ -36,7 +36,6 @@ class ThreadClass:
         # self.client_socket.send(message.encode())
 
 
-
 class WindowClass(QMainWindow, form_class):
     login_user = None
     isIDChecked = False
@@ -46,7 +45,7 @@ class WindowClass(QMainWindow, form_class):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-        self.test = ThreadClass(self)
+        self.thread = ThreadClass(self)  # 스레드에 GUI 같이 넘겨주기
 
         # region 실행 시 초기 세팅
         input_rule_eng_num = QRegExp("[A-Za-z0-9]*")
@@ -110,7 +109,7 @@ class WindowClass(QMainWindow, form_class):
         time = datetime.now().strftime('%F %T.%f')  # DB에 넣을 시간
         msg_time = datetime.now().strftime('%H:%M')  # 출력할 시간
         chat = self.input_chat_text.text()
-        self.test.send_data('name', chat)
+        self.thread.send_data('name', chat)
         # self.browser_chat.append(
         #     '<div style="text-align: right; vertical-align: bottom;">'
         #     '<span style="font-size: 10px; color: gray;">' + msg_time + '</span>'
@@ -123,7 +122,7 @@ class WindowClass(QMainWindow, form_class):
             '<div style="text-align: right; vertical-align: bottom;">'
             # '<span style="font-size: 10px; color: gray;">' + msg_time + '</span>'
             '<span style="font-size: 14px; color: black;"> ' + message['message'] + '</span>'
-            '</div>')
+                                                                                    '</div>')
 
     def set_enabled_send(self):
         if self.input_chat_text.text() == '':
@@ -153,7 +152,7 @@ class WindowClass(QMainWindow, form_class):
 
     def registration(self):
         if len(self.input_regist_id.text()) <= 0 or len(self.input_regist_pw.text()) <= 0 or len(
-                self.input_regist_pwck.text()) <= 0 or len(self.input_regist_name.text()) <= 0 or len(
+            self.input_regist_pwck.text()) <= 0 or len(self.input_regist_name.text()) <= 0 or len(
             self.input_regist_phone.text()) <= 0:
             QMessageBox.warning(self, '경고', '모든 입력칸을 확인해주세요')
         elif not self.isIDChecked:
@@ -209,6 +208,7 @@ class WindowClass(QMainWindow, form_class):
         #         self.isIDChecked = False
         #         QMessageBox.warning(self, '경고', '이미 사용 중인 아이디입니다')
         #         self.btn_regist_idck.setEnabled(True)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
