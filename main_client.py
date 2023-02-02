@@ -12,6 +12,15 @@ import json
 form_class = uic.loadUiType("main.ui")[0]
 
 
+class User:
+    def __init__(self, info):
+        self.num = info[0]
+        self.uid = info[1]
+        self.upw = info[2]
+        self.name = info[3]
+        self.phone = info[4]
+
+
 class ThreadClass:
     def __init__(self, form, host='127.0.0.1', port=9000):
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -25,15 +34,39 @@ class ThreadClass:
         while True:
             data = self.client_socket.recv(1024)
             dic_data = json.loads(data.decode())
-            print('name: ' + dic_data['name'], 'message: ' + dic_data['message'])
-            self.form.append_message(dic_data)
+            if dic_data['method'] == 'chat':
+                print('user_num:', dic_data['user_num'], 'message', dic_data['message'])
+                self.form.append_message(dic_data)
+            if dic_data['method'] == 'check_id_result':
+                print(dic_data['result'])
+                if dic_data['result']:
+                    self.form.label_regist_id.setText('사용 가능한 아이디입니다')
+                    self.form.isIDChecked = True
+                else:
+                    self.form.label_regist_id.setText('이미 사용 중인 아이디입니다')
+                    self.form.isIDChecked = False
+            if dic_data['method'] == 'login_result':
+                if dic_data['result']:
+                    self.form.QMessageBox.information(self, '알림', '로그인되었습니다')
+                    self.form.login_user = User()
+
             # print("receive:", repr(data.decode()))
 
-    def send_data(self, name, message):
-        data = {"name": name, "message": message}
+    def send_chat(self, user_num, message):
+        data = {"method": 'chat', "user_num": user_num, "message": message}
         json_data = json.dumps(data)
         self.client_socket.sendall(json_data.encode())
-        # self.client_socket.send(message.encode())
+
+    def send_check_id(self, input_id):
+        data = {"method": 'check_id', "input_id": input_id, "result": bool()}
+        print(data['method'])
+        json_data = json.dumps(data)
+        self.client_socket.sendall(json_data.encode())
+
+    def send_registration(self, uid, upw, uname, phone):
+        data = {"method": 'registration', "uid": uid, "upw": upw, "uname": uname, "phone": phone}
+        json_data = json.dumps(data)
+        self.client_socket.sendall(json_data.encode())
 
 
 class WindowClass(QMainWindow, form_class):
@@ -78,6 +111,7 @@ class WindowClass(QMainWindow, form_class):
 
         self.input_chat_text.textChanged.connect(self.set_enabled_send)
         self.input_chat_text.returnPressed.connect(self.send_text)
+        self.input_regist_id.editingFinished.connect(self.check_id)
 
     # region 페이지 이동 함수들
     def go_main(self):
@@ -97,19 +131,11 @@ class WindowClass(QMainWindow, form_class):
 
     # endregion
 
-    # def test(self):
-    #     time = datetime.now().strftime('%F %T.%f')
-    #     msg_time = datetime.now().strftime('%H:%M')
-    #     print('time:', time)
-    #     print('msg time:', msg_time)
-    #     self.label_time.setText(time)
-    #     self.label_msg_time.setText(msg_time)
-
     def send_text(self):
         time = datetime.now().strftime('%F %T.%f')  # DB에 넣을 시간
         msg_time = datetime.now().strftime('%H:%M')  # 출력할 시간
         chat = self.input_chat_text.text()
-        self.thread.send_data('name', chat)
+        self.thread.send_chat(1, chat)
         # self.browser_chat.append(
         #     '<div style="text-align: right; vertical-align: bottom;">'
         #     '<span style="font-size: 10px; color: gray;">' + msg_time + '</span>'
@@ -117,11 +143,11 @@ class WindowClass(QMainWindow, form_class):
         #     '</div>')
         self.input_chat_text.clear()
 
-    def append_message(self, message):
+    def append_message(self, dic_data):
         self.browser_chat.append(
             '<div style="text-align: right; vertical-align: bottom;">'
-            # '<span style="font-size: 10px; color: gray;">' + msg_time + '</span>'
-            '<span style="font-size: 14px; color: black;"> ' + message['message'] + '</span>'
+            '<span style="font-size: 10px; color: gray;">' + dic_data['send_time'] + '</span>'
+            '<span style="font-size: 14px; color: black;"> ' + dic_data['message'] + '</span>'
                                                                                     '</div>')
 
     def set_enabled_send(self):
@@ -152,8 +178,8 @@ class WindowClass(QMainWindow, form_class):
 
     def registration(self):
         if len(self.input_regist_id.text()) <= 0 or len(self.input_regist_pw.text()) <= 0 or len(
-            self.input_regist_pwck.text()) <= 0 or len(self.input_regist_name.text()) <= 0 or len(
-            self.input_regist_phone.text()) <= 0:
+                self.input_regist_pwck.text()) <= 0 or len(self.input_regist_name.text()) <= 0 or len(
+                self.input_regist_phone.text()) <= 0:
             QMessageBox.warning(self, '경고', '모든 입력칸을 확인해주세요')
         elif not self.isIDChecked:
             QMessageBox.warning(self, '경고', '아이디 중복 확인을 해주세요')
@@ -164,6 +190,7 @@ class WindowClass(QMainWindow, form_class):
             regist_pw = self.input_regist_pw.text()
             regist_name = self.input_regist_name.text()
             regist_phone = self.input_regist_phone.text()
+            self.thread.send_registration(regist_id, regist_pw, regist_name, regist_phone)
             # 서버로 넘겨주는 걸로 바꿔야함
             # sql = f"INSERT INTO member (uid, upw, uname, phone) VALUES ('{regist_id}', '{regist_pw}', '{regist_name}', '{regist_phone}')"
             # print(sql)
@@ -171,8 +198,8 @@ class WindowClass(QMainWindow, form_class):
             #     with con.cursor() as cur:
             #         cur.execute(sql)
             #         con.commit()
-            # QMessageBox.information(self, '알림', '회원가입에 성공하였습니다')
-            # self.stackedWidget.setCurrentWidget(self.stack_main)
+            QMessageBox.information(self, '알림', '회원가입에 성공하였습니다')
+            self.stackedWidget.setCurrentWidget(self.stack_main)
 
     def id_changed(self):
         self.isIDChecked = False
@@ -195,6 +222,8 @@ class WindowClass(QMainWindow, form_class):
 
     def check_id(self):
         print('check_id')
+        self.thread.send_check_id(self.input_regist_id.text())
+
         # 서버로 넘겨주는 걸로 바꿔야 함
         # sql = f"SELECT * FROM member WHERE uid = '{self.input_regist_id.text()}'"
         # with conn_fetch() as cur:
