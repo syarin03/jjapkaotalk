@@ -211,7 +211,7 @@
       <property name="geometry">
        <rect>
         <x>100</x>
-        <y>340</y>
+        <y>360</y>
         <width>200</width>
         <height>25</height>
        </rect>
@@ -277,7 +277,7 @@
       <property name="geometry">
        <rect>
         <x>100</x>
-        <y>370</y>
+        <y>390</y>
         <width>200</width>
         <height>25</height>
        </rect>
@@ -337,7 +337,7 @@
        </font>
       </property>
       <property name="text">
-       <string>아이디 또는 비밀번호를 확인해주세요</string>
+       <string>아이디 또는 비밀번호 확인</string>
       </property>
      </widget>
     </widget>
@@ -473,7 +473,7 @@
        </font>
       </property>
       <property name="text">
-       <string>8자 이상 영문, 숫자를 사용하세요</string>
+       <string>8자 이상 영문, 숫자 혼용</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_regist_pwck">
@@ -492,7 +492,7 @@
        </font>
       </property>
       <property name="text">
-       <string>비밀번호가 일치하지 않습니다</string>
+       <string/>
       </property>
      </widget>
      <widget class="QLabel" name="label_regist_phone">
@@ -511,7 +511,7 @@
        </font>
       </property>
       <property name="text">
-       <string>이미 가입된 번호입니다</string>
+       <string/>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_regist">

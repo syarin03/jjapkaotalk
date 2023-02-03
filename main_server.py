@@ -66,6 +66,20 @@ def threaded(client_socket, addr):
                 with conn_fetch() as cur:
                     cur.execute(sql)
                     result = cur.fetchall()
+                    print(result)
+                    if len(result) == 0:
+                        dic_data['result'] = False
+                    else:
+                        dic_data['result'] = True
+                        dic_data['login_info'] = result[0]
+
+            if dic_data['method'] == 'registration':
+                print(dic_data['uid'])
+                dic_data['method'] = 'login_result'
+                sql = f"SELECT * FROM member WHERE uid = '{dic_data['uid']}' and upw = '{dic_data['upw']}'"
+                with conn_fetch() as cur:
+                    cur.execute(sql)
+                    result = cur.fetchall()
                     if len(result) == 0:
                         dic_data['result'] = False
                     else:
