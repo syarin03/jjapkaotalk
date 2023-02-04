@@ -83,7 +83,8 @@ class MultiChatServer:
                     for x in self.room_name_check:
                         time.sleep(0.001)
                         self.final_received_message = x[0] + '방번호'
-                        self.send_all_clients(c_socket)
+                        # self.send_all_clients(c_socket)
+                        c_socket.send(self.final_received_message.encode())
 
                 elif incoming_message.decode()[-5:] == '채팅방만듬':
 
@@ -95,7 +96,7 @@ class MultiChatServer:
                     sql = f"INSERT INTO room (name) VALUES ('{self.room_name}')"
                     cursor.execute(sql)
                     conn.commit()
-                    sql = f"SELECT * from room"
+                    sql = f"SELECT * from room where name ='{self.room_name}'"
                     cursor.execute(sql)
                     self.room_check = cursor.fetchall()
                     print(self.room_check)
@@ -104,7 +105,7 @@ class MultiChatServer:
                         print(x)
                         time.sleep(0.001)
                         self.final_received_message = x[1] + '채팅방만듬'
-                    self.send_all_clients(c_socket)
+                        self.send_all_clients(c_socket)
 
                 elif incoming_message.decode()[-2:] == '입장':
 
@@ -122,12 +123,14 @@ class MultiChatServer:
                     self.join_check = cursor.fetchall()
                     conn.close()
                     for x in self.join_check:
+                        print(x)
                         time.sleep(0.001)
                         self.final_received_message = x[1] + '채팅방만듬'
-                        self.send_all_clients(c_socket)
+                        c_socket.send(self.final_received_message.encode())
+                        # self.send_all_clients(c_socket)
         c_socket.close()
 
-    # 송신 클라이언트를 제외한 모든 클라이언트에게 메시지 전송
+    # 모든 클라이언트에게 메시지 전송
     def send_all_clients(self, senders_socket):
         for client in self.clients: # 목록에 있는 모든 소켓에 대해
             socket, (ip, port) = client
