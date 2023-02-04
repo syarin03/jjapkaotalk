@@ -36,7 +36,7 @@ def threaded(client_socket, addr):
             dic_data = json.loads(data.decode())
 
             if dic_data['method'] == 'chat':
-                print(dic_data['message'])
+                print(dic_data['user_num'], dic_data['message'])
                 time = datetime.now().strftime('%F %T.%f')  # DB에 넣을 시간
                 dic_data['send_time'] = time[11:-10]
                 sql = f"INSERT INTO chat (member_num, send_time, message) " \
@@ -91,11 +91,6 @@ def threaded(client_socket, addr):
             else:
                 send_everyone(client_sockets, dic_data)
 
-            # for client in client_sockets:
-            #     if dic_data['method'] == 'login_result' and client != client_socket:
-            #         continue
-            #     json_data = json.dumps(dic_data)
-            #     client.sendall(json_data.encode())
         except ConnectionResetError as e:
             print('>> Disconnected by ' + addr[0], ':', addr[1])
             break

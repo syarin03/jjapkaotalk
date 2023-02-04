@@ -36,7 +36,7 @@ class ThreadClass:
             dic_data = json.loads(data.decode())
 
             if dic_data['method'] == 'chat':
-                print('user_num:', dic_data['user_num'], 'message', dic_data['message'])
+                print('user_num:', dic_data['user_num'], '\nmessage:', dic_data['message'])
                 self.form.append_message(dic_data)
 
             if dic_data['method'] == 'check_id_result':
@@ -52,16 +52,14 @@ class ThreadClass:
                 print(dic_data['result'])
                 if dic_data['result']:
                     self.form.stack.setCurrentWidget(self.form.stack_regist_success)
-                else:
-                    self.form.label_regist_id.setText('이미 사용 중인 아이디입니다')
 
             if dic_data['method'] == 'login_result':
                 if dic_data['result']:
                     self.form.login_user = User(dic_data['login_info'])
-                    self.form.stack.setCurrentWidget(self.form.stack_main)
-                    self.form.label_main_name.setText(self.form.login_user.uname)
+                    self.form.label_main_name.setText(self.form.login_user.uname + ' 님')
                     self.form.btn_main_to_login.setVisible(False)
                     self.form.btn_main_to_regist.setVisible(False)
+                    self.form.btn_logout.setVisible(True)
                     print('uid:', self.form.login_user.uid)
                 else:
                     self.form.label_login_alert.setVisible(True)

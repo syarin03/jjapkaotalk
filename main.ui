@@ -49,33 +49,9 @@
      <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="stack_main">
-     <widget class="QPushButton" name="btn_test">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>75</width>
-        <height>23</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>맑은 고딕</family>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
-      </property>
-      <property name="text">
-       <string>test</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_time">
       <property name="geometry">
        <rect>
@@ -202,14 +178,41 @@
       <property name="text">
        <string/>
       </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="stack_login">
-     <widget class="QLineEdit" name="input_login_pw">
+     <widget class="QPushButton" name="btn_logout">
       <property name="geometry">
        <rect>
         <x>100</x>
-        <y>250</y>
+        <y>400</y>
+        <width>200</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>로그아웃</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="stack_login">
+     <widget class="QLineEdit" name="input_login_id">
+      <property name="geometry">
+       <rect>
+        <x>100</x>
+        <y>220</y>
         <width>130</width>
         <height>25</height>
        </rect>
@@ -220,10 +223,10 @@
        </font>
       </property>
       <property name="echoMode">
-       <enum>QLineEdit::Password</enum>
+       <enum>QLineEdit::Normal</enum>
       </property>
       <property name="placeholderText">
-       <string>비밀번호</string>
+       <string>아이디</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_login_to_regist">
@@ -250,11 +253,11 @@
        <string>회원가입</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="input_login_id">
+     <widget class="QLineEdit" name="input_login_pw">
       <property name="geometry">
        <rect>
         <x>100</x>
-        <y>220</y>
+        <y>250</y>
         <width>130</width>
         <height>25</height>
        </rect>
@@ -264,8 +267,11 @@
         <family>맑은 고딕</family>
        </font>
       </property>
+      <property name="echoMode">
+       <enum>QLineEdit::Password</enum>
+      </property>
       <property name="placeholderText">
-       <string>아이디</string>
+       <string>비밀번호</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_login">
@@ -665,7 +671,7 @@
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab_find_id">
        <attribute name="title">
@@ -817,7 +823,7 @@
      </widget>
     </widget>
     <widget class="QWidget" name="stack_room_list">
-     <widget class="QListWidget" name="listWidget">
+     <widget class="QListWidget" name="list_room">
       <property name="geometry">
        <rect>
         <x>30</x>
@@ -826,17 +832,19 @@
         <height>391</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
      </widget>
-    </widget>
-    <widget class="QWidget" name="stack_room_create"/>
-    <widget class="QWidget" name="stack_room_chat">
-     <widget class="QLineEdit" name="input_chat_text">
+     <widget class="QLineEdit" name="input_find_room">
       <property name="geometry">
        <rect>
-        <x>11</x>
-        <y>491</y>
-        <width>381</width>
-        <height>71</height>
+        <x>100</x>
+        <y>50</y>
+        <width>191</width>
+        <height>25</height>
        </rect>
       </property>
       <property name="font">
@@ -844,23 +852,14 @@
         <family>맑은 고딕</family>
        </font>
       </property>
-      <property name="frame">
-       <bool>false</bool>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-      </property>
      </widget>
-     <widget class="QPushButton" name="btn_send_text">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
+     <widget class="QPushButton" name="btn_find_room">
       <property name="geometry">
        <rect>
-        <x>331</x>
-        <y>561</y>
-        <width>60</width>
-        <height>30</height>
+        <x>300</x>
+        <y>50</y>
+        <width>71</width>
+        <height>25</height>
        </rect>
       </property>
       <property name="font">
@@ -872,14 +871,37 @@
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="styleSheet">
-       <string notr="true">border-radius: 5px;
-background-color: rgb(217, 217, 217);
-</string>
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
       </property>
       <property name="text">
-       <string>전송</string>
+       <string>검색</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>50</y>
+        <width>60</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>방 검색</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="stack_room_create"/>
+    <widget class="QWidget" name="stack_room_chat">
      <widget class="QWidget" name="widget_2" native="true">
       <property name="geometry">
        <rect>
@@ -894,9 +916,6 @@ background-color: rgb(217, 217, 217);
         <family>맑은 고딕</family>
        </font>
       </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(186, 206, 224);</string>
-      </property>
       <widget class="QLabel" name="label">
        <property name="geometry">
         <rect>
@@ -910,6 +929,8 @@ background-color: rgb(217, 217, 217);
         <font>
          <family>맑은 고딕</family>
          <pointsize>11</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
         </font>
        </property>
        <property name="text">
@@ -934,13 +955,85 @@ background-color: rgb(217, 217, 217);
         <enum>QFrame::NoFrame</enum>
        </property>
       </widget>
-      <widget class="QPushButton" name="btn_login_to_main_2">
+      <widget class="QPushButton" name="btn_chat_to_list">
        <property name="geometry">
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>60</width>
+         <width>40</width>
          <height>25</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>맑은 고딕</family>
+         <pointsize>14</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255, 0);</string>
+       </property>
+       <property name="text">
+        <string>←</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QFrame" name="frame_3">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>480</y>
+        <width>402</width>
+        <height>131</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Box</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Sunken</enum>
+      </property>
+      <widget class="QLineEdit" name="input_chat_text">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>381</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>맑은 고딕</family>
+        </font>
+       </property>
+       <property name="frame">
+        <bool>false</bool>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_send_text">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>80</y>
+         <width>60</width>
+         <height>30</height>
         </rect>
        </property>
        <property name="font">
@@ -952,10 +1045,12 @@ background-color: rgb(217, 217, 217);
         <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(255, 255, 255, 0);</string>
+        <string notr="true">border-radius: 5px;
+background-color: rgb(217, 217, 217);
+</string>
        </property>
        <property name="text">
-        <string>메인으로</string>
+        <string>전송</string>
        </property>
       </widget>
      </widget>
@@ -963,6 +1058,43 @@ background-color: rgb(217, 217, 217);
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>input_login_id</tabstop>
+  <tabstop>input_login_pw</tabstop>
+  <tabstop>btn_login</tabstop>
+  <tabstop>btn_login_to_regist</tabstop>
+  <tabstop>btn_login_to_find</tabstop>
+  <tabstop>btn_main_to_regist</tabstop>
+  <tabstop>btn_main_to_chat</tabstop>
+  <tabstop>btn_main_to_login</tabstop>
+  <tabstop>btn_login_to_main</tabstop>
+  <tabstop>input_regist_id</tabstop>
+  <tabstop>input_regist_pw</tabstop>
+  <tabstop>input_regist_pwck</tabstop>
+  <tabstop>input_regist_name</tabstop>
+  <tabstop>input_regist_phone</tabstop>
+  <tabstop>btn_regist</tabstop>
+  <tabstop>btn_regist_to_main</tabstop>
+  <tabstop>tab_find</tabstop>
+  <tabstop>input_find_id_name</tabstop>
+  <tabstop>input_find_id_phone</tabstop>
+  <tabstop>btn_find_id</tabstop>
+  <tabstop>input_find_pw_phone</tabstop>
+  <tabstop>btn_find_pw</tabstop>
+  <tabstop>input_find_pw_name</tabstop>
+  <tabstop>input_find_pw_id</tabstop>
+  <tabstop>btn_find_to_main</tabstop>
+  <tabstop>list_room</tabstop>
+  <tabstop>input_chat_text</tabstop>
+  <tabstop>btn_send_text</tabstop>
+  <tabstop>browser_chat</tabstop>
+  <tabstop>btn_chat_to_list</tabstop>
+  <tabstop>btn_regist_result_to_login</tabstop>
+  <tabstop>btn_regist_result_to_main</tabstop>
+  <tabstop>btn_logout</tabstop>
+  <tabstop>input_find_room</tabstop>
+  <tabstop>btn_find_room</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

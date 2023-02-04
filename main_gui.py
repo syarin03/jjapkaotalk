@@ -1,3 +1,5 @@
+import time
+
 from main_client import *
 
 
@@ -24,6 +26,7 @@ class WindowClass(QMainWindow, form_class):
 
         self.stack.setCurrentWidget(self.stack_main)
         self.label_login_alert.setVisible(False)
+        self.btn_logout.setVisible(False)
         # endregion
 
         # region 페이지 이동
@@ -46,6 +49,7 @@ class WindowClass(QMainWindow, form_class):
         # self.btn_test.clicked.connect(self.test)
         self.btn_send_text.clicked.connect(self.send_text)
         self.btn_login.clicked.connect(self.login)
+        self.btn_logout.clicked.connect(self.logout)
         self.btn_regist.clicked.connect(self.registration)
 
         self.input_chat_text.textChanged.connect(self.set_enabled_send)
@@ -54,6 +58,8 @@ class WindowClass(QMainWindow, form_class):
         self.input_login_id.textChanged.connect(self.login_id_input_changed)
         self.input_regist_pw.textChanged.connect(self.pw_changed)
         self.input_regist_pwck.textChanged.connect(self.pw_changed)
+
+        self.stack.currentChanged.connect(self.stack_change)
 
     # region 페이지 이동 함수들
     def go_main(self):
@@ -69,9 +75,34 @@ class WindowClass(QMainWindow, form_class):
         self.stack.setCurrentWidget(self.stack_find)
 
     def go_chat(self):
-        self.stack.setCurrentWidget(self.stack_room_chat)
+        if self.login_user is not None:
+            self.stack.setCurrentWidget(self.stack_room_chat)
+        else:
+            return
 
     # endregion
+
+    def stack_change(self):
+        self.input_login_id.clear()
+        self.input_login_pw.clear()
+
+        self.input_regist_id.clear()
+        self.input_regist_name.clear()
+        self.input_regist_phone.clear()
+        self.input_regist_pw.clear()
+        self.input_regist_pwck.clear()
+
+        self.input_find_id_name.clear()
+        self.input_find_id_phone.clear()
+        self.input_find_pw_id.clear()
+        self.input_find_pw_name.clear()
+        self.input_find_pw_phone.clear()
+
+        self.input_find_room.clear()
+        self.input_chat_text.clear()
+
+        # self.browser_chat.clear()
+        # self.list_room.setRowCount(0)
 
     def login_id_input_changed(self):
         self.label_login_alert.setVisible(False)
@@ -80,7 +111,7 @@ class WindowClass(QMainWindow, form_class):
         # time = datetime.now().strftime('%F %T.%f')  # DB에 넣을 시간
         # msg_time = datetime.now().strftime('%H:%M')  # 출력할 시간
         chat = self.input_chat_text.text()
-        self.thread.send_chat(1, chat)
+        self.thread.send_chat(self.login_user.num, chat)
         self.input_chat_text.clear()
 
     def append_message(self, dic_data):
@@ -99,14 +130,23 @@ class WindowClass(QMainWindow, form_class):
             self.btn_send_text.setStyleSheet("border-radius: 5px; background-color: #FEE500;")
 
     def login(self):
-        print('login')
         input_id = self.input_login_id.text()
         input_pw = self.input_login_pw.text()
         self.thread.send_login(input_id, input_pw)
+        time.sleep(0.1)
+        if self.login_user is not None:
+            QMessageBox.information(self, '알림', '로그인 되었습니다')
+            self.stack.setCurrentWidget(self.stack_main)
+        else:
+            print('no')
 
     def logout(self):
-        self.login_user = None
         QMessageBox.information(self, '알림', '로그아웃 되었습니다')
+        self.login_user = None
+        self.btn_main_to_login.setVisible(True)
+        self.btn_main_to_regist.setVisible(True)
+        self.btn_logout.setVisible(False)
+        self.label_main_name.clear()
 
     def registration(self):
         if 0 in [len(self.input_regist_id.text()), len(self.input_regist_pw.text()), len(self.input_regist_pwck.text()),
@@ -117,11 +157,11 @@ class WindowClass(QMainWindow, form_class):
         elif not self.isPWRuleChecked or not self.isPWSameChecked:
             QMessageBox.warning(self, '경고', '비밀번호를 확인해주세요')
         else:
-            regist_id = self.input_regist_id.text()
-            regist_pw = self.input_regist_pw.text()
-            regist_name = self.input_regist_name.text()
-            regist_phone = self.input_regist_phone.text()
-            self.thread.send_registration(regist_id, regist_pw, regist_name, regist_phone)
+            input_id = self.input_regist_id.text()
+            input_pw = self.input_regist_pw.text()
+            input_name = self.input_regist_name.text()
+            input_phone = self.input_regist_phone.text()
+            self.thread.send_registration(input_id, input_pw, input_name, input_phone)
 
     def id_changed(self):
         self.isIDChecked = False
@@ -130,7 +170,7 @@ class WindowClass(QMainWindow, form_class):
     def pw_changed(self):
         if self.input_regist_pw.text().isdigit() or self.input_regist_pw.text().isalpha() or len(
                 self.input_regist_pw.text()) < 8:
-            self.label_regist_pw.setText('영문 숫자 혼용하여 8글자 이상이어야 합니다')
+            self.label_regist_pw.setText('8자 이상 영문, 숫자 혼용')
             self.isPWRuleChecked = False
         else:
             self.label_regist_pw.clear()
@@ -143,7 +183,6 @@ class WindowClass(QMainWindow, form_class):
             self.isPWSameChecked = True
 
     def check_id(self):
-        print('check_id')
         self.thread.send_check_id(self.input_regist_id.text())
 
 
