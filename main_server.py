@@ -75,18 +75,17 @@ def threaded(client_socket, addr):
 
             if dic_data['method'] == 'registration':
                 print(dic_data['uid'])
-                dic_data['method'] = 'login_result'
-                sql = f"SELECT * FROM member WHERE uid = '{dic_data['uid']}' and upw = '{dic_data['upw']}'"
-                with conn_fetch() as cur:
-                    cur.execute(sql)
-                    result = cur.fetchall()
-                    if len(result) == 0:
-                        dic_data['result'] = False
-                    else:
-                        dic_data['result'] = True
-                        dic_data['login_info'] = result[0]
+                dic_data['method'] = 'registration_result'
+                sql = f"INSERT INTO member (uid, upw, uname, phone) VALUES " \
+                      f"('{dic_data['uid']}', '{dic_data['upw']}', '{dic_data['uname']}', '{dic_data['phone']}')"
+                print(sql)
+                with conn_commit() as con:
+                    with con.cursor() as cur:
+                        cur.execute(sql)
+                        con.commit()
+                dic_data['result'] = True
 
-            if dic_data['method'] == 'login_result':
+            if dic_data['method'] in ['login_result', 'registration_result']:
                 send_single(client_socket, dic_data)
 
             else:
