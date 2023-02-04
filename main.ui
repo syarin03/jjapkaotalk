@@ -670,6 +670,11 @@
         <height>400</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
       <property name="currentIndex">
        <number>1</number>
       </property>
@@ -686,6 +691,11 @@
           <height>25</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+         </font>
+        </property>
         <property name="placeholderText">
          <string>이름</string>
         </property>
@@ -698,6 +708,11 @@
           <width>190</width>
           <height>25</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+         </font>
         </property>
         <property name="placeholderText">
          <string>전화번호</string>
@@ -741,6 +756,11 @@
           <height>25</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+         </font>
+        </property>
         <property name="placeholderText">
          <string>전화번호</string>
         </property>
@@ -778,6 +798,11 @@
           <height>25</height>
          </rect>
         </property>
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+         </font>
+        </property>
         <property name="placeholderText">
          <string>이름</string>
         </property>
@@ -790,6 +815,11 @@
           <width>190</width>
           <height>25</height>
          </rect>
+        </property>
+        <property name="font">
+         <font>
+          <family>맑은 고딕</family>
+         </font>
         </property>
         <property name="placeholderText">
          <string>아이디</string>
@@ -838,45 +868,6 @@
        </font>
       </property>
      </widget>
-     <widget class="QLineEdit" name="input_find_room">
-      <property name="geometry">
-       <rect>
-        <x>100</x>
-        <y>50</y>
-        <width>191</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>맑은 고딕</family>
-       </font>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="btn_find_room">
-      <property name="geometry">
-       <rect>
-        <x>300</x>
-        <y>50</y>
-        <width>71</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>맑은 고딕</family>
-       </font>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
-      </property>
-      <property name="text">
-       <string>검색</string>
-      </property>
-     </widget>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
@@ -899,6 +890,30 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
+     <widget class="QPushButton" name="btn_room_list_to_main">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>80</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>맑은 고딕</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 5px; background-color: #d9d9d9;</string>
+      </property>
+      <property name="text">
+       <string>메인으로</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="stack_room_create"/>
     <widget class="QWidget" name="stack_room_chat">
@@ -916,7 +931,7 @@
         <family>맑은 고딕</family>
        </font>
       </property>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="label_room_name">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -1092,8 +1107,6 @@ background-color: rgb(217, 217, 217);
   <tabstop>btn_regist_result_to_login</tabstop>
   <tabstop>btn_regist_result_to_main</tabstop>
   <tabstop>btn_logout</tabstop>
-  <tabstop>input_find_room</tabstop>
-  <tabstop>btn_find_room</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -19,6 +19,7 @@ class User:
         self.upw = info[2]
         self.uname = info[3]
         self.phone = info[4]
+        self.room_num = None
 
 
 class ThreadClass:
@@ -32,12 +33,15 @@ class ThreadClass:
 
     def recv_data(self):
         while True:
-            data = self.client_socket.recv(1024)
+            data = self.client_socket.recv(9999)
             dic_data = json.loads(data.decode())
 
             if dic_data['method'] == 'chat':
-                print('user_num:', dic_data['user_num'], '\nmessage:', dic_data['message'])
-                self.form.append_message(dic_data)
+                if self.form.login_user is None:
+                    continue
+                if self.form.login_user.room_num == dic_data['room_num']:
+                    print('user_name:', dic_data['user_name'], '\nmessage:', dic_data['message'])
+                    self.form.append_message(dic_data)
 
             if dic_data['method'] == 'check_id_result':
                 print(dic_data['result'])
@@ -64,8 +68,22 @@ class ThreadClass:
                 else:
                     self.form.label_login_alert.setVisible(True)
 
-    def send_chat(self, user_num, message):
-        data = {"method": 'chat', "user_num": user_num, "message": message}
+            if dic_data['method'] == 'room_list_result':
+                print(dic_data['result'])
+                self.form.room_list = list(dic_data['result'])
+                row = 0
+                for i in dic_data['result']:
+                    print(i)
+                    self.form.list_room.addItem(i[1])
+                    row += 1
+
+            if dic_data['method'] == 'load_chat_result':
+                # print(dic_data['result'])
+                data_str = dic_data['data'][0] + ' ' + dic_data['data'][1] + ' ' + dic_data['data'][2]
+                self.form.browser_chat.append(data_str)
+
+    def send_chat(self, room_num, user_num, user_name, message):
+        data = {"method": 'chat', "room_num": room_num, "user_num": user_num, "user_name": user_name, "message": message}
         json_data = json.dumps(data)
         self.client_socket.sendall(json_data.encode())
 
@@ -77,12 +95,24 @@ class ThreadClass:
 
     def send_registration(self, uid, upw, uname, phone):
         data = {"method": 'registration', "uid": uid, "upw": upw, "uname": uname, "phone": phone}
+        print(data['method'])
         json_data = json.dumps(data)
         self.client_socket.sendall(json_data.encode())
 
     def send_login(self, uid, upw):
         data = {"method": 'login', "uid": uid, "upw": upw}
+        print(data['method'])
         json_data = json.dumps(data)
         self.client_socket.sendall(json_data.encode())
 
+    def send_room_list(self):
+        data = {"method": 'room_list'}
+        print(data['method'])
+        json_data = json.dumps(data)
+        self.client_socket.sendall(json_data.encode())
 
+    def send_chat_entry(self, room_num):
+        data = {"method": 'load_chat', "room_num": room_num}
+        print(data['method'])
+        json_data = json.dumps(data)
+        self.client_socket.sendall(json_data.encode())

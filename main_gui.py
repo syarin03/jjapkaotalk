@@ -8,6 +8,7 @@ class WindowClass(QMainWindow, form_class):
     isIDChecked = False
     isPWRuleChecked = False
     isPWSameChecked = False
+    room_list = list()
 
     def __init__(self):
         super().__init__()
@@ -36,24 +37,27 @@ class WindowClass(QMainWindow, form_class):
         self.btn_main_to_regist.clicked.connect(self.go_regist)
         self.btn_login_to_regist.clicked.connect(self.go_regist)
 
-        self.btn_main_to_chat.clicked.connect(self.go_chat)
+        self.btn_main_to_chat.clicked.connect(self.go_room_list)
+        self.btn_chat_to_list.clicked.connect(self.go_room_list)
 
         self.btn_login_to_find.clicked.connect(self.go_find)
+        self.list_room.doubleClicked.connect(self.go_chat)
 
         self.btn_login_to_main.clicked.connect(self.go_main)
         self.btn_regist_to_main.clicked.connect(self.go_main)
         self.btn_find_to_main.clicked.connect(self.go_main)
         self.btn_regist_result_to_main.clicked.connect(self.go_main)
+        self.btn_room_list_to_main.clicked.connect(self.go_main)
         # endregion
 
         # self.btn_test.clicked.connect(self.test)
-        self.btn_send_text.clicked.connect(self.send_text)
+        self.btn_send_text.clicked.connect(self.send_message)
         self.btn_login.clicked.connect(self.login)
         self.btn_logout.clicked.connect(self.logout)
         self.btn_regist.clicked.connect(self.registration)
 
         self.input_chat_text.textChanged.connect(self.set_enabled_send)
-        self.input_chat_text.returnPressed.connect(self.send_text)
+        self.input_chat_text.returnPressed.connect(self.send_message)
         self.input_regist_id.editingFinished.connect(self.check_id)
         self.input_login_id.textChanged.connect(self.login_id_input_changed)
         self.input_regist_pw.textChanged.connect(self.pw_changed)
@@ -75,10 +79,18 @@ class WindowClass(QMainWindow, form_class):
         self.stack.setCurrentWidget(self.stack_find)
 
     def go_chat(self):
-        if self.login_user is not None:
-            self.stack.setCurrentWidget(self.stack_room_chat)
-        else:
+        if self.login_user is None:
             return
+        row = self.list_room.currentRow()
+        self.login_user.room_num = self.room_list[row][0]
+        print(self.login_user.room_num)
+        self.thread.send_chat_entry(self.login_user.room_num)
+        self.label_room_name.setText(self.room_list[row][1])
+        self.stack.setCurrentWidget(self.stack_room_chat)
+
+    def go_room_list(self):
+        self.stack.setCurrentWidget(self.stack_room_list)
+        self.thread.send_room_list()
 
     # endregion
 
@@ -98,28 +110,26 @@ class WindowClass(QMainWindow, form_class):
         self.input_find_pw_name.clear()
         self.input_find_pw_phone.clear()
 
-        self.input_find_room.clear()
         self.input_chat_text.clear()
 
-        # self.browser_chat.clear()
-        # self.list_room.setRowCount(0)
+        self.browser_chat.clear()
+        self.list_room.clear()
 
     def login_id_input_changed(self):
         self.label_login_alert.setVisible(False)
 
-    def send_text(self):
-        # time = datetime.now().strftime('%F %T.%f')  # DB에 넣을 시간
-        # msg_time = datetime.now().strftime('%H:%M')  # 출력할 시간
+    def send_message(self):
         chat = self.input_chat_text.text()
-        self.thread.send_chat(self.login_user.num, chat)
+        self.thread.send_chat(self.login_user.room_num, self.login_user.num, self.login_user.uname, chat)
         self.input_chat_text.clear()
 
     def append_message(self, dic_data):
         self.browser_chat.append(
-            '<div style="text-align: right; vertical-align: bottom;">'
-            '<span style="font-size: 10px; color: gray;">' + dic_data['send_time'] + '</span>'
-            '<span style="font-size: 14px; color: black;"> ' + dic_data['message'] + '</span>'
-            '</div>')
+            '<div style="text-align: left; vertical-align: bottom; width : 100%;">'
+            '<b style="font-size: 14px;">' + dic_data['user_name'] + '</b><br>'
+            '<span style="font-size: 14px;color: black;">' + dic_data['message'] + '</span>'
+            '<span style="font-size: 10px;color: gray;"> ' + dic_data['send_time'] + '</span>'
+            '</div></div>')
 
     def set_enabled_send(self):
         if self.input_chat_text.text() == '':

@@ -1,4 +1,5 @@
 import socket
+import time
 from _thread import *
 import json
 import pymysql
@@ -28,7 +29,7 @@ def conn_commit():
 def threaded(client_socket, addr):
     while True:
         try:
-            data = client_socket.recv(1024)
+            data = client_socket.recv(9999)
             if not data:
                 print('>> Disconnected by ' + addr[0], ':', addr[1])
                 break
@@ -39,8 +40,8 @@ def threaded(client_socket, addr):
                 print(dic_data['user_num'], dic_data['message'])
                 time = datetime.now().strftime('%F %T.%f')  # DB에 넣을 시간
                 dic_data['send_time'] = time[11:-10]
-                sql = f"INSERT INTO chat (member_num, send_time, message) " \
-                      f"VALUES ({dic_data['user_num']}, '{time}', '{dic_data['message']}')"
+                sql = f"INSERT INTO chat (room_num, member_num, send_time, message) " \
+                      f"VALUES ({dic_data['room_num']}, {dic_data['user_num']}, '{time}', '{dic_data['message']}')"
                 with conn_commit() as con:
                     with con.cursor() as cur:
                         cur.execute(sql)
@@ -85,11 +86,34 @@ def threaded(client_socket, addr):
                         con.commit()
                 dic_data['result'] = True
 
-            if dic_data['method'] in ['login_result', 'registration_result']:
-                send_single(client_socket, dic_data)
+            if dic_data['method'] == 'room_list':
+                print(dic_data['method'])
+                sql = f"SELECT * FROM room"
+                print(sql)
+                with conn_fetch() as cur:
+                    cur.execute(sql)
+                    result = cur.fetchall()
+                    dic_data['method'] = 'room_list_result'
+                    dic_data['result'] = result
 
-            else:
+            if dic_data['method'] == 'load_chat':
+                print(dic_data['method'])
+                # sql = f"SELECT * FROM chat WHERE room_num = {dic_data['room_num']}"
+                sql = f"SELECT a.room_num, b.uname, a.send_time, a.message FROM chat a LEFT JOIN member b ON a.member_num = b.num WHERE room_num = {dic_data['room_num']}"
+
+                print(sql)
+                with conn_fetch() as cur:
+                    cur.execute(sql)
+                    result = cur.fetchall()
+                    dic_data['method'] = 'load_chat_result'
+                    dic_data['result'] = result
+
+            if dic_data['method'] == 'chat':
                 send_everyone(client_sockets, dic_data)
+            elif dic_data['method'] == 'load_chat_result':
+                send_chat_history(client_sockets, dic_data)
+            else:
+                send_single(client_socket, dic_data)
 
         except ConnectionResetError as e:
             print('>> Disconnected by ' + addr[0], ':', addr[1])
@@ -110,6 +134,18 @@ def send_everyone(client_sockets, dic_data):
 def send_single(client_socket, dic_data):
     json_data = json.dumps(dic_data)
     client_socket.sendall(json_data.encode())
+
+
+def send_chat_history(client_sockets, dic_data):
+    result = dic_data['result']
+    del dic_data['result']
+    for i in result:
+        for client in client_sockets:
+            # dic_data['data'] = '<div style="text-align: left; vertical-align: bottom; width : 100%;"> <b style="font-size: 14px;">' + i[1] + '</b><br> <span style="font-size: 14px;color: black;">' + i[3] + '</span> <span style="font-size: 10px;color: gray;"> ' + str(i[2]) + '</span></div>'
+            dic_data['data'] = [i[1], i[3], str(i[2])]
+            json_data = json.dumps(dic_data)
+            client.sendall(json_data.encode())
+            time.sleep(0.2)
 
 
 print('>> Server Start')
